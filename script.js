@@ -41,27 +41,6 @@ const questions = [
     message:'Write a short description of the project',
 },
 
-// {
-//     type:'input',
-//     name:'license',
-//     message:'What kind of licnce will you use? (n/a for none)',
-//     choices: ['MIT', 'APACHE 2.0','GPL3.0','BSD 3', 'n/a' ],
-// },
-
-// {
-//     type:'input',
-//     name:'installation',
-//     message:'What command should be run to install dependancies? (npm i is the default)',
-//     default: 'npm i',
-// },
-
-// {
-//     type:'input',
-//     name:'testing',
-//     message:'What command to run tests? (default is npm test)',
-//     default:'npm test',
-// },
-
 {
     type:'input',
     name:'useage',
@@ -95,7 +74,7 @@ function writeToFile(fileName, data) {
 function init() {
     inquirer.prompt(questions).then((res) => {
         console.log(res);
-        writeToFile('./README.md', generateMarkdown(res));
+        writeToFile('./teamfile.js', generateMarkdown(res));
     });
 }
 
