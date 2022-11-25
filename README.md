@@ -2,7 +2,7 @@
 
   
   ## Description
-Team Profile project
+Team Profile project, it creates a team profile page for you
   
   ## Table of Contents
   * [Installation](#installation)
