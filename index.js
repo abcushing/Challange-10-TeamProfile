@@ -107,6 +107,7 @@ function getEngineerData() {
       //     JSON.stringify(data, null, "\t"),
       //     (err) => (err ? console.log(err) : console.log("Success!"))
       //   );
+      employees.push(engineer);
       nextEmployee();
     });
 }
@@ -144,6 +145,7 @@ function getInternData() {
       //     JSON.stringify(data, null, "\t"),
       //     (err) => (err ? console.log(err) : console.log("Success!"))
       //   );
+      employees.push(intern);
       nextEmployee();
     });
 }
@@ -176,6 +178,7 @@ function getEmployeeData() {
       //     JSON.stringify(data, null, "\t"),
       //     (err) => (err ? console.log(err) : console.log("Success!"))
       //   );
+      employees.push(employee);
       nextEmployee();
     });
 }
@@ -236,18 +239,35 @@ function createHTML(employees) {
   for (var i = 0; i < employees.length; i++) {
     let special;
     if (employees[i].getRole() === "Manager") {
-      special = employees[i].getofficeNumber();
+      special = "Office Number: " + employees[i].getofficeNumber();
     } else if (employees[i].getRole() === "Engineer") {
-      special = employees[i].getgithub();
+      special =
+        `Github: <a href = "mailto:  ` +
+        employees[i].getgithub() +
+        `">` +
+        employees[i].getgithub() +
+        `</a>`;
+    } else if (employees[i].getRole() === "Intern") {
+      special = "School: " + employees[i].getSchool();
     }
     HTML += `
           <div>
-          <p>${employees[i].name}</p>
-          <p>${employees[i].getRole()}</p>
+          <div class="row row-cols-1 row-cols-md-2 g-4">
+          <div class="col">
+          <div class="card">
+          <div class="card-body">
+          <h5 class="card-title">${employees[i].getName()}</h5>
+          <h5 class="card-title">${employees[i].getRole()}</h5>
           <ul>
-          <li>${employees[i].id}</li>
-          <li>${employees[i].email}</li>
+          <li>Employee ID: ${employees[i].id}</li>
+          <li>Employee Email: <a href = "mailto: ${employees[i].email}">
+          ${employees[i].email}</a></li>
           <li>${special}</li>
+          </ul>
+          </div>
+          </div>
+          </div>
+          </div>
           `;
   }
   return `
@@ -282,7 +302,7 @@ function writeToFile(fileName, data) {
     if (err) {
       return console.log(err);
     }
-    console.log("teamfile.md file successfully created!");
+    console.log("teamfile.html file successfully created!");
   });
 }
 
