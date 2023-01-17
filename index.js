@@ -67,7 +67,7 @@ function getManagerData() {
       //     JSON.stringify(data, null, "\t"),
       //     (err) => (err ? console.log(err) : console.log("Success!"))
       //   );
-      buildHTML(manager);
+      //   buildHTML(manager);
       nextEmployee();
     });
 }
@@ -200,26 +200,93 @@ function nextEmployee() {
 
 // function initializeJSON() {}
 
-function buildHTML(employee) {
-  console.log(employee);
-  let employeeHTML = ` <div class="col">
-  <div class="card">
-      <div class="card-body">
-          <h5 id="role" class="card-title">`;
-  employeeHTML += employee.getRole();
-  employeeHTML += `</h5>
-          <p id="empID" class="card-text">`;
-  employeeHTML += employee.getId();
-  employeeHTML += ` </p>
-          <p id="empemail" class="card-text">`;
-  employeeHTML += employee.getEmail();
-  employeeHTML += `</p>
-          <p id="empnumber" class="card-text">`;
-  employeeHTML += employee.getofficeNumber();
-  employeeHTML += `</p>    
-      </div>
-  </div>
-</div>`;
+// function buildHTML(employee) {
+//   let htmlTemplate = fs.readFileSync("./index.html", "utf8");
+//   console.log(employee);
+//   let employeeHTML = ` <div class="col">
+//   <div class="card">
+//       <div class="card-body">
+//           <h5 id="role" class="card-title">`;
+//   employeeHTML += employee.getRole();
+//   employeeHTML += `</h5>
+//           <p id="empID" class="card-text">`;
+//   employeeHTML += employee.getId();
+//   employeeHTML += ` </p>
+//           <p id="empemail" class="card-text">`;
+//   employeeHTML += employee.getEmail();
+//   employeeHTML += `</p>
+//           <p id="empnumber" class="card-text">`;
+//   employeeHTML += employee.getofficeNumber();
+//   employeeHTML += `</p>
+//       </div>
+//   </div>
+// </div>`;
+
+//   htmlTemplate.getElementById("card").appendChild(employeeHTML);
+// }
+
+function createHTML(employee) {
+  let HTML = "";
+  for (var i = 0; i < employee.length; i++) {
+    let special;
+    if (employee[i].getRole() === "Manager") {
+      special = employee[i].getofficeNumber();
+    } else if (employee[i].getRole() === "Engineer") {
+      special = employee[i].getgithub();
+    }
+    HTML += `
+          <div>
+          <p>${employee[i].name}</p>
+          <p>${employee[i].getRole()}</p>
+          <ul>
+          <li>${employee[i].id}</li>
+          <li>${employee[i].email}</li>
+          <li>${special}</li>
+          `;
+  }
+  return `
+      <!DOCTYPE html>
+  <html lang="en">
+  
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+          crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="reset.css">
+      <link rel="stylesheet" href="style.css">
+      <title>Team Profile Generator</title>
+  </head>
+  
+  <body><h1>employee profile</h1>
+    ${HTML}
+  </body>
+  
+  </html>
+      `;
 }
 
-addEmployee();
+// function to write the file
+function writeToFile(fileName, data) {
+  fs.writeFile(fileName, data, (err) => {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("teamfile.md file successfully created!");
+  });
+}
+
+// function to initialize app
+function init() {
+  addEmployee().then(writeToFile("./teamfile.html", createHTML(employees)));
+  //   inquirer.prompt(questions).then((res) => {
+  //     console.log(res);
+  // writeToFile("./teamfile.html", createHTML(employees));
+  //   });
+}
+
+init();
