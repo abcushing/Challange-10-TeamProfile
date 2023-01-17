@@ -1,5 +1,10 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const Manager = require("./lib/Manager");
+const Employee = require("./lib/Employee");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const teamPage = require("./index.html");
 
 function addEmployee() {
   inquirer
@@ -33,22 +38,22 @@ function getManagerData() {
     .prompt([
       {
         type: "input",
-        name: "Employee name",
+        name: "name",
         message: "What is the employee name?",
       },
       {
         type: "input",
-        name: "Employee email",
+        name: "email",
         message: "What is the employee email?",
       },
       {
         type: "input",
-        name: "Employee ID",
+        name: "ID",
         message: "What is the employee ID?",
       },
       {
         type: "input",
-        name: "Employee Office Number",
+        name: "office",
         message: "What is the employee Office Number?",
       },
     ])
@@ -56,11 +61,13 @@ function getManagerData() {
       console.log("data.role= ", data.role);
       data.role = "Manager";
       console.log(data);
-      fs.appendFile(
-        "./dist/employees.json",
-        JSON.stringify(data, null, "\t"),
-        (err) => (err ? console.log(err) : console.log("Success!"))
-      );
+      let manager = new Manager(data.name, data.ID, data.email, data.office);
+      //   fs.appendFile(
+      //     "./dist/employees.json",
+      //     JSON.stringify(data, null, "\t"),
+      //     (err) => (err ? console.log(err) : console.log("Success!"))
+      //   );
+      buildHTML(manager);
       nextEmployee();
     });
 }
@@ -70,33 +77,34 @@ function getEngineerData() {
     .prompt([
       {
         type: "input",
-        name: "Employee name",
+        name: "name",
         message: "What is the employee name?",
       },
       {
         type: "input",
-        name: "Employee email",
+        name: "email",
         message: "What is the employee email?",
       },
       {
         type: "input",
-        name: "Employee ID",
+        name: "ID",
         message: "What is the employee ID?",
       },
       {
         type: "input",
-        name: "Employee Github",
+        name: "Github",
         message: "What is the employee Github?",
       },
     ])
     .then((data) => {
       data.role = "Engineer";
       console.log(data);
-      fs.appendFile(
-        "./dist/employees.json",
-        JSON.stringify(data, null, "\t"),
-        (err) => (err ? console.log(err) : console.log("Success!"))
-      );
+      let engineer = new Engineer(data.name, data.ID, data.email, data.Github);
+      //   fs.appendFile(
+      //     "./dist/employees.json",
+      //     JSON.stringify(data, null, "\t"),
+      //     (err) => (err ? console.log(err) : console.log("Success!"))
+      //   );
       nextEmployee();
     });
 }
@@ -106,33 +114,34 @@ function getInternData() {
     .prompt([
       {
         type: "input",
-        name: "Employee name",
+        name: "name",
         message: "What is the employee name?",
       },
       {
         type: "input",
-        name: "Employee email",
+        name: "email",
         message: "What is the employee email?",
       },
       {
         type: "input",
-        name: "Employee ID",
+        name: "ID",
         message: "What is the employee ID?",
       },
       {
         type: "input",
-        name: "Employee School",
+        name: "School",
         message: "What is the employee school?",
       },
     ])
     .then((data) => {
       data.role = "Intern";
       console.log(data);
-      fs.appendFile(
-        "./dist/employees.json",
-        JSON.stringify(data, null, "\t"),
-        (err) => (err ? console.log(err) : console.log("Success!"))
-      );
+      let intern = new Intern(data.name, data.ID, data.email, data.School);
+      //   fs.appendFile(
+      //     "./dist/employees.json",
+      //     JSON.stringify(data, null, "\t"),
+      //     (err) => (err ? console.log(err) : console.log("Success!"))
+      //   );
       nextEmployee();
     });
 }
@@ -142,28 +151,29 @@ function getEmployeeData() {
     .prompt([
       {
         type: "input",
-        name: "Employee name",
+        name: "name",
         message: "What is the employee name?",
       },
       {
         type: "input",
-        name: "Employee email",
+        name: "email",
         message: "What is the employee email?",
       },
       {
         type: "input",
-        name: "Employee ID",
+        name: "ID",
         message: "What is the employee ID?",
       },
     ])
     .then((data) => {
       data.role = "Employee";
       console.log(data);
-      fs.appendFile(
-        "./dist/employees.json",
-        JSON.stringify(data, null, "\t"),
-        (err) => (err ? console.log(err) : console.log("Success!"))
-      );
+      let employee = new Employee(data.name, data.ID, data.email);
+      //   fs.appendFile(
+      //     "./dist/employees.json",
+      //     JSON.stringify(data, null, "\t"),
+      //     (err) => (err ? console.log(err) : console.log("Success!"))
+      //   );
       nextEmployee();
     });
 }
@@ -186,6 +196,12 @@ function nextEmployee() {
         console.log("added employees");
       }
     });
+}
+
+function initializeJSON() {}
+
+function buildHTML(employee) {
+  console.log(employee);
 }
 
 addEmployee();
