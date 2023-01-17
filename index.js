@@ -5,6 +5,7 @@ const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 // const teamPage = require("./index.html");
+var employees = [];
 
 function addEmployee() {
   inquirer
@@ -68,6 +69,7 @@ function getManagerData() {
       //     (err) => (err ? console.log(err) : console.log("Success!"))
       //   );
       //   buildHTML(manager);
+      employees.push(manager);
       nextEmployee();
     });
 }
@@ -194,6 +196,10 @@ function nextEmployee() {
         addEmployee();
       } else {
         console.log("added employees");
+        console.log(employees);
+        let generatedHTML = createHTML(employees);
+        console.log(generatedHTML);
+        writeToFile("./dist/teamfile.html", generatedHTML);
       }
     });
 }
@@ -225,22 +231,22 @@ function nextEmployee() {
 //   htmlTemplate.getElementById("card").appendChild(employeeHTML);
 // }
 
-function createHTML(employee) {
+function createHTML(employees) {
   let HTML = "";
-  for (var i = 0; i < employee.length; i++) {
+  for (var i = 0; i < employees.length; i++) {
     let special;
-    if (employee[i].getRole() === "Manager") {
-      special = employee[i].getofficeNumber();
-    } else if (employee[i].getRole() === "Engineer") {
-      special = employee[i].getgithub();
+    if (employees[i].getRole() === "Manager") {
+      special = employees[i].getofficeNumber();
+    } else if (employees[i].getRole() === "Engineer") {
+      special = employees[i].getgithub();
     }
     HTML += `
           <div>
-          <p>${employee[i].name}</p>
-          <p>${employee[i].getRole()}</p>
+          <p>${employees[i].name}</p>
+          <p>${employees[i].getRole()}</p>
           <ul>
-          <li>${employee[i].id}</li>
-          <li>${employee[i].email}</li>
+          <li>${employees[i].id}</li>
+          <li>${employees[i].email}</li>
           <li>${special}</li>
           `;
   }
@@ -282,7 +288,9 @@ function writeToFile(fileName, data) {
 
 // function to initialize app
 function init() {
-  addEmployee().then(writeToFile("./teamfile.html", createHTML(employees)));
+  addEmployee();
+  console.log("employees= ", employees);
+  //   writeToFile("./teamfile.html", createHTML(employees));
   //   inquirer.prompt(questions).then((res) => {
   //     console.log(res);
   // writeToFile("./teamfile.html", createHTML(employees));
