@@ -4,7 +4,7 @@ const Manager = require("./lib/Manager");
 const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
-const teamPage = require("./index.html");
+// const teamPage = require("./index.html");
 
 function addEmployee() {
   inquirer
@@ -198,10 +198,28 @@ function nextEmployee() {
     });
 }
 
-function initializeJSON() {}
+// function initializeJSON() {}
 
 function buildHTML(employee) {
   console.log(employee);
+  let employeeHTML = ` <div class="col">
+  <div class="card">
+      <div class="card-body">
+          <h5 id="role" class="card-title">`;
+  employeeHTML += employee.getRole();
+  employeeHTML += `</h5>
+          <p id="empID" class="card-text">`;
+  employeeHTML += employee.getId();
+  employeeHTML += ` </p>
+          <p id="empemail" class="card-text">`;
+  employeeHTML += employee.getEmail();
+  employeeHTML += `</p>
+          <p id="empnumber" class="card-text">`;
+  employeeHTML += employee.getofficeNumber();
+  employeeHTML += `</p>    
+      </div>
+  </div>
+</div>`;
 }
 
 addEmployee();
