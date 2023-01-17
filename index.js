@@ -18,7 +18,6 @@ function addEmployee() {
       },
     ])
     .then((data) => {
-      console.log("data role= ", data);
       if (data.role[0] === "Manager") {
         getManagerData();
       } else if (data.role[0] === "Engineer") {
@@ -28,8 +27,6 @@ function addEmployee() {
       } else if (data.role[0] === "Employee") {
         getEmployeeData();
       }
-
-      // const filename = `${data.name.toLowerCase().split(" ").join("")}.json`;
     });
 }
 
@@ -59,16 +56,8 @@ function getManagerData() {
       },
     ])
     .then((data) => {
-      console.log("data.role= ", data.role);
       data.role = "Manager";
-      console.log(data);
       let manager = new Manager(data.name, data.ID, data.email, data.office);
-      //   fs.appendFile(
-      //     "./dist/employees.json",
-      //     JSON.stringify(data, null, "\t"),
-      //     (err) => (err ? console.log(err) : console.log("Success!"))
-      //   );
-      //   buildHTML(manager);
       employees.push(manager);
       nextEmployee();
     });
@@ -102,11 +91,6 @@ function getEngineerData() {
       data.role = "Engineer";
       console.log(data);
       let engineer = new Engineer(data.name, data.ID, data.email, data.Github);
-      //   fs.appendFile(
-      //     "./dist/employees.json",
-      //     JSON.stringify(data, null, "\t"),
-      //     (err) => (err ? console.log(err) : console.log("Success!"))
-      //   );
       employees.push(engineer);
       nextEmployee();
     });
@@ -138,13 +122,7 @@ function getInternData() {
     ])
     .then((data) => {
       data.role = "Intern";
-      console.log(data);
       let intern = new Intern(data.name, data.ID, data.email, data.School);
-      //   fs.appendFile(
-      //     "./dist/employees.json",
-      //     JSON.stringify(data, null, "\t"),
-      //     (err) => (err ? console.log(err) : console.log("Success!"))
-      //   );
       employees.push(intern);
       nextEmployee();
     });
@@ -173,11 +151,6 @@ function getEmployeeData() {
       data.role = "Employee";
       console.log(data);
       let employee = new Employee(data.name, data.ID, data.email);
-      //   fs.appendFile(
-      //     "./dist/employees.json",
-      //     JSON.stringify(data, null, "\t"),
-      //     (err) => (err ? console.log(err) : console.log("Success!"))
-      //   );
       employees.push(employee);
       nextEmployee();
     });
@@ -206,34 +179,6 @@ function nextEmployee() {
       }
     });
 }
-
-// function initializeJSON() {}
-
-// function buildHTML(employee) {
-//   let htmlTemplate = fs.readFileSync("./index.html", "utf8");
-//   console.log(employee);
-//   let employeeHTML = ` <div class="col">
-//   <div class="card">
-//       <div class="card-body">
-//           <h5 id="role" class="card-title">`;
-//   employeeHTML += employee.getRole();
-//   employeeHTML += `</h5>
-//           <p id="empID" class="card-text">`;
-//   employeeHTML += employee.getId();
-//   employeeHTML += ` </p>
-//           <p id="empemail" class="card-text">`;
-//   employeeHTML += employee.getEmail();
-//   employeeHTML += `</p>
-//           <p id="empnumber" class="card-text">`;
-//   employeeHTML += employee.getofficeNumber();
-//   employeeHTML += `</p>
-//       </div>
-//   </div>
-// </div>`;
-
-//   htmlTemplate.getElementById("card").appendChild(employeeHTML);
-// }
-
 function createHTML(employees) {
   let HTML = "";
   for (var i = 0; i < employees.length; i++) {
@@ -295,7 +240,6 @@ function createHTML(employees) {
   </html>
       `;
 }
-
 // function to write the file
 function writeToFile(fileName, data) {
   fs.writeFile(fileName, data, (err) => {
@@ -310,11 +254,6 @@ function writeToFile(fileName, data) {
 function init() {
   addEmployee();
   console.log("employees= ", employees);
-  //   writeToFile("./teamfile.html", createHTML(employees));
-  //   inquirer.prompt(questions).then((res) => {
-  //     console.log(res);
-  // writeToFile("./teamfile.html", createHTML(employees));
-  //   });
 }
 
 init();
